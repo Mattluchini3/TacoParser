@@ -6,7 +6,8 @@
     public class TacoParser
     {
         readonly ILog logger = new TacoLogger();
-        
+        private object instance;
+
         public ITrackable Parse(string line)
         {
             logger.LogInfo("Begin parsing");
@@ -25,7 +26,9 @@
             // grab the latitude from your array at index 0
             // grab the longitude from your array at index 1
             // grab the name from your array at index 2
-
+            var lattitude = double.Parse(cells[0]);
+            var longitude = double.Parse(cells[1]);
+            var name = cells[2];
             // Your going to need to parse your string as a `double`
             // which is similar to parsing a string as an `int`
 
@@ -34,11 +37,18 @@
 
             // Then, you'll need an instance of the TacoBell class
             // With the name and point set correctly
+            var actualPoint = new Point();
+            actualPoint.Longitude = longitude;
+            actualPoint.Latitude = lattitude;
+
+            var instance = new TacoBell();
+            instance.Name = name;
+            instance.Location = actualPoint;
 
             // Then, return the instance of your TacoBell class
             // Since it conforms to ITrackable
 
-            return null;
+            return (ITrackable)instance;
         }
     }
 }
